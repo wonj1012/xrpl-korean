@@ -237,7 +237,7 @@ class XrplTransaction:
         # create payment transaction
         payment_tx = Payment(
             account=account.address,
-            amount=amount,
+            amount=str(amount),
             destination=destination_address,
             **kwargs,
         )
@@ -270,7 +270,7 @@ class XrplTransaction:
         Raises:
             XRPLReliableSubmissionException: 트랜잭션 제출이 실패하면 발생합니다.
         """
-        # Autofill and sign transactionxx
+        # Autofill and sign transaction
         signed_tx = autofill_and_sign(
             transaction=transaction,
             client=account.client,
