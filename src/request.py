@@ -1,15 +1,6 @@
 from typing import Optional
 from xrpl.clients import JsonRpcClient, XRPLRequestFailureException
-from xrpl.models.requests import (
-    Request,
-    ServerInfo,
-    AccountInfo,
-    AccountObjects,
-    AccountTx,
-    AccountLines,
-    AccountCurrencies,
-    Tx,
-)
+from xrpl.models.requests import *
 from utils import Result, Address
 
 
@@ -178,6 +169,94 @@ class XrplRequest:
         )
 
         # Return currencies
+        return result
+
+    @classmethod
+    def get_account_channels(
+        cls, client: JsonRpcClient, address: Address, **kwargs
+    ) -> Result:
+        """
+        이 계정의 채널들을 조회합니다.
+
+        Args:
+            client (JsonRpcClient): 요청을 보낼 클라이언트입니다.
+            **kwargs: 추가적인 선택적 매개변수들입니다.
+
+        Returns:
+            Result: 이 계정의 채널들을 포함하는 Result 객체입니다.
+        """
+        # Get channels
+        result = cls.request_ledger(client, AccountChannels(account=address, **kwargs))
+
+        # Return channels
+        return result
+
+    @classmethod
+    def authorize_channel(
+        cls,
+        client: JsonRpcClient,
+        channel_id: str,
+        amount: str | int,
+        secret: str | None = None,
+        **kwargs
+    ):
+        """
+        Args:
+            client (JsonRpcClient): 요청을 보낼 클라이언트입니다.
+            channel_id (str): 채널 ID입니다.
+            amount (str | int): 채널에 예치할 XRP의 양입니다.
+            secret (str | None, optional): 서명에 사용할 비밀키입니다. 이 값을 제공하지 않으면 seed, seed_hex, passphrase 중 하나를 제공해야 합니다.
+            **kwargs: 추가적인 선택적 매개변수들입니다.
+
+        Returns:
+            Result:
+        """
+        # Get channels
+        result = cls.request_ledger(
+            client,
+            ChannelAuthorize(
+                channel_id=channel_id, amount=str(amount), secret=secret, **kwargs
+            ),
+        )
+
+        # Return channels
+        return result
+
+    @classmethod
+    def verify_channel(
+        cls,
+        client: JsonRpcClient,
+        channel_id: str,
+        amount: str | int,
+        public_key: str | None = None,
+        signature: str | None = None,
+        **kwargs
+    ):
+        """_summary_
+
+        Args:
+            client (JsonRpcClient): _description_
+            channel_id (str): _description_
+            amount (str | int): _description_
+            public_key (str | None, optional): _description_. Defaults to None.
+            signature (str | None, optional): _description_. Defaults to None.
+
+        Returns:
+            _type_: _description_
+        """
+        # Get channels
+        result = cls.request_ledger(
+            client,
+            ChannelVerify(
+                channel_id=channel_id,
+                amount=str(amount),
+                public_key=public_key,
+                signature=signature,
+                **kwargs
+            ),
+        )
+
+        # Return channels
         return result
 
     @classmethod

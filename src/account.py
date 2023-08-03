@@ -34,6 +34,7 @@ class XrplAccount:
         self._wallet = None
         self._transactions: Dict[str, Result] = {}
         self._tokens: Dict[str, IssuedCurrency] = {}
+        self._channels: Dict[str, Dict[str, int]] = {}
 
         # Create new wallet if create is True
         if create:
