@@ -1,3 +1,5 @@
+import logging
+import json
 from typing import NewType, Dict, Any, Callable
 
 from xrpl.models.transactions import AccountSetAsfFlag
@@ -45,9 +47,30 @@ def to_classic_address(address: Address) -> Address | None:
         클래식 주소입니다.
     """
     if is_valid_xaddress(address):
-        return classic_address_to_xaddress(address, tag=None, is_test_network=True)
+        return Address(
+            classic_address_to_xaddress(address, tag=None, is_test_network=True)
+        )
 
     if is_valid_classic_address(address):
         return address
 
     return None
+
+
+class Logger:
+    def __init__(self, log_file: str) -> None:
+        self.logger = logging.getLogger(__name__)
+        self.logger.setLevel(logging.DEBUG)
+
+        file_handler = logging.FileHandler(log_file)
+        file_handler.setLevel(logging.DEBUG)
+
+        formatter = logging.Formatter("%(asctime)s - %(levelname)s\n%(message)s\n")
+        file_handler.setFormatter(formatter)
+
+        self.logger.addHandler(file_handler)
+
+    def log(self, message: str | dict) -> None:
+        if isinstance(message, dict):
+            message = json.dumps(message, indent=4)
+        self.logger.info(message)
