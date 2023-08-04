@@ -257,6 +257,7 @@ class XrplTransaction:
         destination_address: Address,
         amount: str | int,
         settle_delay: int,
+        public_key: str | None = None,
         **kwargs,
     ) -> Result:
         """_summary_
@@ -273,12 +274,15 @@ class XrplTransaction:
         # Pop check_fee from kwargs
         check_fee = kwargs.pop("check_fee", True)
 
+        if public_key is None:
+            public_key = account.wallet.public_key
+
         channel_create_tx = PaymentChannelCreate(
             account=account.address,
             amount=str(amount),
             destination=destination_address,
             settle_delay=settle_delay,
-            public_key=account.wallet.public_key,
+            public_key=public_key,
             **kwargs,
         )
 
@@ -286,7 +290,7 @@ class XrplTransaction:
             account=account, transaction=channel_create_tx, check_fee=check_fee
         )
 
-        account.add_payment_channel(result["hash"], channel_create_tx)
+        # account.add_payment_channel(result["hash"], channel_create_tx)
 
         return result
 
