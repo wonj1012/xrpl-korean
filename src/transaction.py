@@ -12,6 +12,7 @@ from xrpl.models.transactions import *
 #     PaymentChannelCreate,
 # )
 from xrpl.models.currencies import IssuedCurrency
+from xrpl.models.amounts import Amount
 from xrpl.transaction import (
     autofill_and_sign,
     submit_and_wait,
@@ -425,6 +426,34 @@ class XrplTransaction:
 
         # Return result
         return response.result
+
+    @classmethod
+    def create_offer(
+        cls, account: XrplAccount, taker_gets: Amount, taker_pays: Amount, **kwargs
+    ) -> Result:
+        """_summary_
+
+        Args:
+            account (XrplAccount): _description_
+            taker_gets (str): _description_
+            taker_pays (str): _description_
+
+        Returns:
+            Result: _description_
+        """
+        # Pop check_fee from kwargs
+        check_fee = kwargs.pop("check_fee", True)
+
+        offer_create_tx = OfferCreate(
+            account=account.address,
+            taker_gets=taker_gets,
+            taker_pays=taker_pays,
+            **kwargs,
+        )
+
+        return cls.submit_transaction(
+            account=account, transaction=offer_create_tx, check_fee=check_fee
+        )
 
     @staticmethod
     def calculate_last_ledger_sequence(
