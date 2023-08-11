@@ -1,14 +1,18 @@
 from typing import Optional
 
 from xrpl.wallet import Wallet
-from xrpl.models.transactions import (
-    Transaction,
-    Payment,
-    AccountSet,
-    SetRegularKey,
-    TrustSet,
-)
+from xrpl.models.transactions import *
+
+# import (
+#     Transaction,
+#     Payment,
+#     AccountSet,
+#     SetRegularKey,
+#     TrustSet,
+#     PaymentChannelCreate,
+# )
 from xrpl.models.currencies import IssuedCurrency
+from xrpl.models.amounts import Amount
 from xrpl.transaction import (
     autofill_and_sign,
     submit_and_wait,
@@ -248,6 +252,130 @@ class XrplTransaction:
         )
 
     @classmethod
+    def create_payment_channel(
+        cls,
+        account: XrplAccount,
+        destination_address: Address,
+        amount: str | int,
+        settle_delay: int,
+        public_key: str | None = None,
+        **kwargs,
+    ) -> Result:
+        """_summary_
+
+        Args:
+            account (XrplAccount): _description_
+            destination_address (Address): _description_
+            amount (str | int): _description_
+            settle_delay (int): _description_
+
+        Returns:
+            Result: _description_
+        """
+        # Pop check_fee from kwargs
+        check_fee = kwargs.pop("check_fee", True)
+
+        if public_key is None:
+            public_key = account.wallet.public_key
+
+        channel_create_tx = PaymentChannelCreate(
+            account=account.address,
+            amount=str(amount),
+            destination=destination_address,
+            settle_delay=settle_delay,
+            public_key=public_key,
+            **kwargs,
+        )
+
+        result = cls.submit_transaction(
+            account=account, transaction=channel_create_tx, check_fee=check_fee
+        )
+
+        # account.add_payment_channel(result["hash"], channel_create_tx)
+
+        return result
+
+    @classmethod
+    def redeem_payment_channel(
+        cls,
+        account: XrplAccount,
+        channel_id: str,
+        amount: str | int,
+        balance: str | int,
+        public_key: str,
+        signature: str,
+        **kwargs,
+    ):
+        """_summary_
+
+        Args:
+            account (XrplAccount): _description_
+            channel_id (str): _description_
+            amount (str | int): _description_
+            balance (str | int): _description_
+
+        Returns:
+            _type_: _description_
+        """
+        return cls.claim_payment_channel(
+            account=account,
+            channel_id=channel_id,
+            amount=amount,
+            balance=balance,
+            public_key=public_key,
+            signature=signature,
+            **kwargs,
+        )
+
+    @classmethod
+    def close_payment_channel(
+        cls,
+        account: XrplAccount,
+        channel_id: str,
+    ):
+        """_summary_
+
+        Args:
+            account (XrplAccount): _description_
+            channel_id (str): _description_
+
+        Returns:
+            _type_: _description_
+        """
+        return cls.claim_payment_channel(
+            account=account,
+            channel_id=channel_id,
+            flags=2147614720,
+        )
+
+    @classmethod
+    def claim_payment_channel(
+        cls,
+        account: XrplAccount,
+        channel_id: str,
+        **kwargs,
+    ):
+        """_summary_
+
+        Args:
+            account (XrplAccount): _description_
+            channel_id (str): _description_
+
+        Returns:
+            _type_: _description_
+        """
+        # Pop check_fee from kwargs
+        check_fee = kwargs.pop("check_fee", True)
+
+        channel_claim_tx = PaymentChannelClaim(
+            account=account.address, channel=channel_id
+        )
+
+        return cls.submit_transaction(
+            account=account, transaction=channel_claim_tx, check_fee=check_fee
+        )
+
+    @classmethod
     def submit_transaction(
         cls,
         account: XrplAccount,
@@ -298,6 +426,34 @@ class XrplTransaction:
 
         # Return result
         return response.result
+
+    @classmethod
+    def create_offer(
+        cls, account: XrplAccount, taker_gets: Amount, taker_pays: Amount, **kwargs
+    ) -> Result:
+        """_summary_
+
+        Args:
+            account (XrplAccount): _description_
+            taker_gets (str): _description_
+            taker_pays (str): _description_
+
+        Returns:
+            Result: _description_
+        """
+        # Pop check_fee from kwargs
+        check_fee = kwargs.pop("check_fee", True)
+
+        offer_create_tx = OfferCreate(
+            account=account.address,
+            taker_gets=taker_gets,
+            taker_pays=taker_pays,
+            **kwargs,
+        )
+
+        return cls.submit_transaction(
+            account=account, transaction=offer_create_tx, check_fee=check_fee
+        )
 
     @staticmethod
     def calculate_last_ledger_sequence(
