@@ -5,10 +5,10 @@ from pprint import pprint
 
 from xrpl.clients import JsonRpcClient
 
-from account import XrplAccount
-from request import XrplRequest
-from transaction import XrplTransaction
-from utils import (
+from src.xrpl_wrapper.account import XrplAccount
+from src.xrpl_wrapper.request import XrplRequest
+from src.xrpl_wrapper.transaction import XrplTransaction
+from src.xrpl_wrapper.utils import (
     Address,
     Result,
     TESTNET_URL,

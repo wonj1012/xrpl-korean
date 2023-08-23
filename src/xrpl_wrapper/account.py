@@ -4,8 +4,8 @@ from xrpl.clients import JsonRpcClient
 from xrpl.wallet import Wallet
 from xrpl.models.currencies import IssuedCurrency
 
-from utils import Address, Result, TESTNET_URL
-from wallet import XrplWallet
+from src.xrpl_wrapper.utils import Address, TESTNET_URL
+from src.xrpl_wrapper.wallet import XrplWallet
 
 
 class XrplAccount:
@@ -32,7 +32,7 @@ class XrplAccount:
         # Set client
         self._client = JsonRpcClient(client_url)
         self._wallet = None
-        self._transactions: Dict[str, Result] = {}
+        self._transactions: Dict[str, dict[str, any]] = {}
         self._tokens: Dict[str, IssuedCurrency] = {}
         self._channels: Dict[str, Dict[str, int]] = {}
 
@@ -82,10 +82,10 @@ class XrplAccount:
         return Address(self.wallet.classic_address)
 
     @property
-    def transactions(self) -> Dict[str, Result]:
+    def transactions(self) -> Dict[str, dict[str, any]]:
         """
         Returns:
-            Dict[str, Result]: 트랜잭션 기록 (트랜잭션 해시: 트랜잭션 결과)
+            Dict[str, dict[str, any]]: 트랜잭션 기록 (트랜잭션 해시: 트랜잭션 결과)
         """
         return self._transactions
 
@@ -119,12 +119,12 @@ class XrplAccount:
         """
         self._tokens.pop(f"{symbol}.{issuer}")
 
-    def log_transaction(self, tx_hash: str, tx_result: Result) -> None:
+    def log_transaction(self, tx_hash: str, tx_result: dict[str, any]) -> None:
         """
         트랜잭션을 기록합니다.
 
         Args:
             tx_hash (str): 트랜잭션의 해시값입니다.
-            tx_result (Result): 트랜잭션의 결과입니다.
+            tx_result (dict[str, any]): 트랜잭션의 결과입니다.
         """
         self._transactions.update({tx_hash: tx_result})

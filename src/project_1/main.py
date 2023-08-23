@@ -1,6 +1,6 @@
 from os import path
 
-from interface import Interface
+from src.project_1.interface import Interface
 
 WALLET_PATH = path.join(path.dirname(__file__), "..", "wallets")
 
