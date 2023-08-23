@@ -1,6 +1,6 @@
 import logging
 import json
-from typing import NewType, Dict, Any, Callable
+from typing import NewType, Callable
 
 from xrpl.models.transactions import AccountSetAsfFlag
 from xrpl.core.addresscodec import (
@@ -11,7 +11,6 @@ from xrpl.core.addresscodec import (
 
 # Custom types
 Address = NewType("Address", str)
-Result = NewType("Result", Dict[str, Any])
 
 # Public server URLs
 TESTNET_URL = "https://s.altnet.rippletest.net:51234"

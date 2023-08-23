@@ -1,7 +1,7 @@
-from typing import Optional, Dict, Any
+from typing import Optional, Dict
 from xrpl.clients import JsonRpcClient, XRPLRequestFailureException
 from xrpl.models.requests import *
-from utils import Result, Address
+from src.xrpl_wrapper.utils import Address
 
 
 class XrplRequest:
@@ -10,7 +10,7 @@ class XrplRequest:
     """
 
     @classmethod
-    def get_server_info(cls, client: JsonRpcClient, **kwargs) -> Dict[str, Any]:
+    def get_server_info(cls, client: JsonRpcClient, **kwargs) -> Dict[str, any]:
         """
         XRPL 네트워크에서 서버 정보를 가져옵니다.
 
@@ -29,7 +29,7 @@ class XrplRequest:
     @classmethod
     def get_transaction(
         cls, client: JsonRpcClient, transaction_hash: str, **kwargs
-    ) -> Dict[str, Any]:
+    ) -> Dict[str, any]:
         """
         트랜잭션 해시 값으로 XRPL 네트워크에서 거래 정보를 가져옵니다.
 
@@ -49,7 +49,7 @@ class XrplRequest:
     @classmethod
     def get_account_info(
         cls, client: JsonRpcClient, address: Address, **kwargs
-    ) -> Dict[str, Any]:
+    ) -> Dict[str, any]:
         """
         XRPL 네트워크에서 이 계정의 정보를 가져옵니다.
 
@@ -66,7 +66,7 @@ class XrplRequest:
     @classmethod
     def get_account_objects(
         cls, client: JsonRpcClient, address: Address, **kwargs
-    ) -> Dict[str, Any]:
+    ) -> Dict[str, any]:
         """
         XRPL 네트워크에서 이 계정의 계정 객체들을 가져옵니다.
 
@@ -83,7 +83,7 @@ class XrplRequest:
     @classmethod
     def get_account_transactions(
         cls, client: JsonRpcClient, address: Address, limit: Optional[int] = 0, **kwargs
-    ) -> Dict[str, Any]:
+    ) -> Dict[str, any]:
         """
         XRPL 네트워크에서 이 계정의 거래 내역을 가져옵니다.
 
@@ -124,7 +124,7 @@ class XrplRequest:
         address: Address,
         token_symbol: Optional[str] = None,
         **kwargs
-    ) -> Dict[str, Any]:
+    ) -> Dict[str, any]:
         """
         이 계정의 trust line을 조회합니다.
 
@@ -152,7 +152,7 @@ class XrplRequest:
     @classmethod
     def get_account_currencies(
         cls, client: JsonRpcClient, address: Address, **kwargs
-    ) -> Dict[str, Any]:
+    ) -> Dict[str, any]:
         """
         이 계정과 연결된 trust line의 토큰들을 조회합니다.
 
@@ -174,7 +174,7 @@ class XrplRequest:
     @classmethod
     def get_account_channels(
         cls, client: JsonRpcClient, address: Address, **kwargs
-    ) -> Dict[str, Any]:
+    ) -> Dict[str, any]:
         """
         이 계정의 채널들을 조회합니다.
 
@@ -199,7 +199,7 @@ class XrplRequest:
         amount: str | int,
         secret: str | None = None,
         **kwargs
-    ) -> Dict[str, Any]:
+    ) -> Dict[str, any]:
         """
         Args:
             client (JsonRpcClient): 요청을 보낼 클라이언트입니다.
@@ -231,7 +231,7 @@ class XrplRequest:
         public_key: str | None = None,
         signature: str | None = None,
         **kwargs
-    ) -> Dict[str, Any]:
+    ) -> Dict[str, any]:
         """_summary_
 
         Args:
@@ -260,7 +260,7 @@ class XrplRequest:
         return result
 
     @classmethod
-    def get_orderbook_info(cls, client: JsonRpcClient, **kwargs) -> Dict[str, Any]:
+    def get_orderbook_info(cls, client: JsonRpcClient, **kwargs) -> Dict[str, any]:
         """
         XRPL 네트워크에서 orderbook 정보를 가져옵니다.
 
@@ -278,7 +278,7 @@ class XrplRequest:
         return result
 
     @classmethod
-    def request_ledger(cls, client: JsonRpcClient, request: Request) -> Dict[str, Any]:
+    def request_ledger(cls, client: JsonRpcClient, request: Request) -> Dict[str, any]:
         """
         XRPL 네트워크에 ledger 요청을 보냅니다.
 

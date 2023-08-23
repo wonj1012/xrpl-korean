@@ -3,14 +3,6 @@ from typing import Optional
 from xrpl.wallet import Wallet
 from xrpl.models.transactions import *
 
-# import (
-#     Transaction,
-#     Payment,
-#     AccountSet,
-#     SetRegularKey,
-#     TrustSet,
-#     PaymentChannelCreate,
-# )
 from xrpl.models.currencies import IssuedCurrency
 from xrpl.models.amounts import Amount
 from xrpl.transaction import (
@@ -22,8 +14,8 @@ from xrpl.ledger import get_latest_validated_ledger_sequence
 from xrpl.constants import CryptoAlgorithm
 from xrpl.clients import JsonRpcClient
 
-from account import XrplAccount
-from utils import Address, Result, AccountSetAsfFlag
+from src.xrpl_wrapper.account import XrplAccount
+from src.xrpl_wrapper.utils import Address, AccountSetAsfFlag
 
 
 class XrplTransaction:
@@ -38,7 +30,7 @@ class XrplTransaction:
         destination_address: Address,
         amount: str | int,
         **kwargs,
-    ) -> Result:
+    ) -> dict[str, any]:
         """
         이 계정에서 특정 주소로 XRP를 보냅니다.
 
@@ -49,7 +41,7 @@ class XrplTransaction:
             **kwargs: 추가로 설정할 트랜잭션의 속성입니다.
 
         Returns:
-            Result: 트랜잭션의 결과입니다.
+            dict[str, any]: 트랜잭션의 결과입니다.
         """
         # Pop check_fee from kwargs
         check_fee = kwargs.pop("check_fee", True)
@@ -62,7 +54,7 @@ class XrplTransaction:
             **kwargs,
         )
 
-        # Submit transaction and return result
+        # Submit transaction and return dict[str, any]
         return cls.submit_transaction(
             account=account, transaction=payment_tx, check_fee=check_fee
         )
@@ -74,7 +66,7 @@ class XrplTransaction:
         set_flag: Optional[AccountSetAsfFlag] = None,
         clear_flag: Optional[AccountSetAsfFlag] = None,
         **kwargs,
-    ) -> Result:
+    ) -> dict[str, any]:
         """
         이 계정의 속성을 설정하거나 해제합니다.
 
@@ -85,7 +77,7 @@ class XrplTransaction:
             **kwargs: 추가로 설정할 트랜잭션의 속성입니다.
 
         Returns:
-            Result: 트랜잭션의 결과입니다.
+            dict[str, any]: 트랜잭션의 결과입니다.
         """
         # Pop check_fee from kwargs
         check_fee = kwargs.pop("check_fee", True)
@@ -98,7 +90,7 @@ class XrplTransaction:
             **kwargs,
         )
 
-        # Submit transaction and return result
+        # Submit transaction and return dict[str, any]
         return cls.submit_transaction(
             account=account, transaction=account_set_tx, check_fee=check_fee
         )
@@ -109,7 +101,7 @@ class XrplTransaction:
         account: XrplAccount,
         algorithm: CryptoAlgorithm = CryptoAlgorithm.ED25519,
         **kwargs,
-    ) -> Result:
+    ) -> dict[str, any]:
         """
         계정의 정규 키를 설정합니다.
 
@@ -119,7 +111,7 @@ class XrplTransaction:
             **kwargs: 트랜잭션 설정에 추가로 전달할 선택적 매개변수입니다.
 
         Returns:
-            Result: 트랜잭션의 결과입니다.
+            dict[str, any]: 트랜잭션의 결과입니다.
         """
         # Pop check_fee from kwargs
         check_fee = kwargs.pop("check_fee", True)
@@ -134,7 +126,7 @@ class XrplTransaction:
             **kwargs,
         )
 
-        # Submit transaction and return result
+        # Submit transaction and return dict[str, any]
         return cls.submit_transaction(
             account=account, transaction=set_regular_key_tx, check_fee=check_fee
         )
@@ -147,7 +139,7 @@ class XrplTransaction:
         issuer: Address,
         limit: str | int,
         **kwargs,
-    ) -> Result:
+    ) -> dict[str, any]:
         """
         이 계정과 발행자 사이에 특정 토큰에 대한 trust line을 설정합니다.
 
@@ -159,7 +151,7 @@ class XrplTransaction:
             **kwargs: 트랜잭션 설정에 추가로 전달할 선택적 매개변수입니다.
 
         Returns:
-            Result: 트랜잭션의 결과입니다.
+            dict[str, any]: 트랜잭션의 결과입니다.
         """
         # Pop check_fee from kwargs
         check_fee = kwargs.pop("check_fee", True)
@@ -178,7 +170,7 @@ class XrplTransaction:
             **kwargs,
         )
 
-        # Submit transaction and return result
+        # Submit transaction and return dict[str, any]
         return cls.submit_transaction(
             account=account, transaction=trust_set_tx, check_fee=check_fee
         )
@@ -186,7 +178,7 @@ class XrplTransaction:
     @classmethod
     def close_token_trust_line(
         cls, account: XrplAccount, token_symbol: str, issuer: Address, **kwargs
-    ) -> Result:
+    ) -> dict[str, any]:
         """
         이 계정과 발행자 사이에 특정 토큰에 대한 trust line을 닫습니다.
         (즉, trust line의 한도를 0으로 설정합니다.)
@@ -198,7 +190,7 @@ class XrplTransaction:
             **kwargs: 트랜잭션 설정에 추가로 전달할 선택적 매개변수입니다.
 
         Returns:
-            Result: 트랜잭션의 결과입니다.
+            dict[str, any]: 트랜잭션의 결과입니다.
         """
         return cls.set_trust_line(
             account=account, currency=token_symbol, issuer=issuer, limit=0, **kwargs
@@ -213,7 +205,7 @@ class XrplTransaction:
         issuer: Address,
         amount: str | int,
         **kwargs,
-    ) -> Result:
+    ) -> dict[str, any]:
         """
         이 계정에서 목적지 주소로 토큰을 보냅니다.
 
@@ -226,7 +218,7 @@ class XrplTransaction:
             **kwargs: 트랜잭션 설정에 추가로 전달할 선택적 매개변수입니다.
 
         Returns:
-            Result: 트랜잭션의 결과입니다.
+            dict[str, any]: 트랜잭션의 결과입니다.
         """
         # Pop check_fee from kwargs
         check_fee = kwargs.pop("check_fee", True)
@@ -236,17 +228,17 @@ class XrplTransaction:
         account.add_token(token_symbol, issuer, issued_currency)
 
         # convert to IssuedCurrencyAmount
-        amount = issued_currency.to_amount(value=amount)
+        token_amount = issued_currency.to_amount(value=amount)
 
         # create payment transaction
         payment_tx = Payment(
             account=account.address,
-            amount=str(amount),
+            amount=token_amount,
             destination=destination_address,
             **kwargs,
         )
 
-        # Submit transaction and return result
+        # Submit transaction and return dict[str, any]
         return cls.submit_transaction(
             account=account, transaction=payment_tx, check_fee=check_fee
         )
@@ -260,7 +252,7 @@ class XrplTransaction:
         settle_delay: int,
         public_key: str | None = None,
         **kwargs,
-    ) -> Result:
+    ) -> dict[str, any]:
         """_summary_
 
         Args:
@@ -270,7 +262,7 @@ class XrplTransaction:
             settle_delay (int): _description_
 
         Returns:
-            Result: _description_
+            dict[str, any]: _description_
         """
         # Pop check_fee from kwargs
         check_fee = kwargs.pop("check_fee", True)
@@ -382,7 +374,7 @@ class XrplTransaction:
         transaction: Transaction,
         check_fee: bool = True,
         log: bool = True,
-    ) -> Result:
+    ) -> dict[str, any]:
         """
         트랜잭션을 제출하고 그 결과를 반환합니다.
 
@@ -393,7 +385,7 @@ class XrplTransaction:
             log (bool, optional): 트랜잭션을 로깅할지 여부입니다. 기본값으로 True를 사용합니다.
 
         Returns:
-            Result: 트랜잭션의 결과입니다.
+            dict[str, any]: 트랜잭션의 결과입니다.
 
         Raises:
             XRPLReliableSubmissionException: 트랜잭션 제출이 실패하면 발생합니다.
@@ -430,7 +422,7 @@ class XrplTransaction:
     @classmethod
     def create_offer(
         cls, account: XrplAccount, taker_gets: Amount, taker_pays: Amount, **kwargs
-    ) -> Result:
+    ) -> dict[str, any]:
         """_summary_
 
         Args:
@@ -439,7 +431,7 @@ class XrplTransaction:
             taker_pays (str): _description_
 
         Returns:
-            Result: _description_
+            dict[str, any]: _description_
         """
         # Pop check_fee from kwargs
         check_fee = kwargs.pop("check_fee", True)
