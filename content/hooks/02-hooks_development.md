@@ -54,15 +54,15 @@ Hooks Builder를 활용하면, 테스트넷에서의 Hook 개발 프로세스가
 
    ![hooks-builder-5](../img/hooks-builder-5.png)
 
-## 2. Hooks API
+## 2. Hook API
 
-### 2.1 Hooks API란?
+### 2.1 Hook API란?
 
-Hooks API는 Hook 개발에 필요한 기능을 제공하는 라이브러리입니다. Hooks API를 활용하면, Hook 개발 과정에서 필요한 다양한 기능을 간편하게 사용할 수 있습니다. hookapi는 builder의 예제 프로젝트들에 있으므로 해당 파일들을 프로젝트 디렉토리에 위치시킨 후, `#include "hookapi.h"`를 통해 hookapi를 사용할 수 있습니다.
+Hook API는 Hook 개발에 필요한 기능을 제공하는 라이브러리입니다. Hook API를 활용하면, Hook 개발 과정에서 필요한 다양한 기능을 간편하게 사용할 수 있습니다. hookapi는 builder의 예제 프로젝트들에 있으므로 해당 파일들을 프로젝트 디렉토리에 위치시킨 후, `#include "hookapi.h"`를 통해 hookapi를 사용할 수 있습니다.
 
-### 2.2 Hooks API 규칙 (Conventions)
+### 2.2 Hook API 규칙 (Conventions)
 
-Hooks API를 효과적으로 사용하려면 몇 가지 핵심 규칙을 이해하고 따라야 합니다. 아래에 이 규칙들을 간단하게 나열하였습니다.
+Hook API를 효과적으로 사용하려면 몇 가지 핵심 규칙을 이해하고 따라야 합니다. 아래에 이 규칙들을 간단하게 나열하였습니다.
 
 1. **네이밍 규칙**
 
