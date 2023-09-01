@@ -4,7 +4,7 @@ sidebar_position: 0
 
 # 튜토리얼 소개
 
-Let's discover **Docusaurus in less than 5 minutes**.
+XRP Ledger에 대한 전반적인 내용과 XRP Ledger 개발을 돕는 가이드로 구성되어 있습니다.
 
 ## Getting Started
 
