@@ -1,10 +1,5 @@
 name: Deploy to GitHub Pages
 
-defaults:
-  run:
-    shell: bash
-    working-directory: site
-
 on:
   push:
     branches:
@@ -34,6 +29,6 @@ jobs:
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./build
+          publish_dir: build
           user_name: wonj1012
           user_email: jjaa1012@gmail.com
