@@ -83,7 +83,7 @@ XRP Ledger의 **에스크로**는 조건부 XRP 결제를 가능하게 하는 �
 3. **비용 계산**: 이행이 있는 `EscrowFinish`의 비용은 이행 크기의 16 바이트당 10 드롭에 XRP 330 드롭의 최소값을 기준으로 계산됩니다.
 4. **다중 서명 경우**: 이행 비용에 추가적인 다중 서명 비용이 발생합니다.
 5. **비용 공식**: `reference_fee * (signer_count + 33 + (fulfillment_bytes / 16))`. (기본 참조 비용: XRP 10 드롭)
-6. **수수료 조정**: [Fee Voting](fee-voting.html)이 참조 비용을 변경하면, 위의 공식도 그에 따라 조정됩니다.
+6. **수수료 조정**: [Fee Voting](https://xrpl.org/fee-voting.html)이 참조 비용을 변경하면, 위의 공식도 그에 따라 조정됩니다.
 
 ## 왜 에스크로인가?
 

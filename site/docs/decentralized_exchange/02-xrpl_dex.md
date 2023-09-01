@@ -161,11 +161,11 @@ XRP Ledger에서의 DEX 거래 주문은 `Offer`라고 부릅니다. Offer를 �
 Offer를 게시하려고 할 때 거래가 판매될 자산의 일부를 보유하고 있지 않으면 "unfunded"로 거절됩니다. 특히:
 
 - 토큰을 판매하려면 해당 토큰의 양수량을 보유하거나 해당 토큰의 발행자가 되어야 합니다.
-- XRP를 판매하려면, Offer 객체를 원장에 배치하고 구입할 토큰을 보유하기 위한 신뢰선의 예비금을 포함하여 모든 [reserve requirements](reserves.html)를 충족해야 합니다.
+- XRP를 판매하려면, Offer 객체를 원장에 배치하고 구입할 토큰을 보유하기 위한 신뢰선의 예비금을 포함하여 모든 [reserve requirements](https://xrpl.org/reserves.html)를 충족해야 합니다.
 
 ### Offer와 신뢰
 
-[trust lines](trust-lines-and-issuing.html)의 한도 값은 Offer에 영향을 주지 않습니다. 하지만 토큰을 보유하려면 발행자에게 신뢰선이 필요합니다. Offer가 사용될 때 필요한 신뢰선을 자동으로 생성하며, 한도를 0으로 설정합니다.
+[trust lines](https://xrpl.org/trust-lines-and-issuing.html)의 한도 값은 Offer에 영향을 주지 않습니다. 하지만 토큰을 보유하려면 발행자에게 신뢰선이 필요합니다. Offer가 사용될 때 필요한 신뢰선을 자동으로 생성하며, 한도를 0으로 설정합니다.
 
 ### Offer의 우선순위
 

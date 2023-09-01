@@ -29,7 +29,7 @@ const config = {
   // to replace "en" with "zh-Hans".
   i18n: {
     defaultLocale: "ko",
-    locales: ["ko"],
+    locales: ["en", "ko"],
   },
 
   presets: [
@@ -86,7 +86,7 @@ const config = {
             items: [
               {
                 label: "Tutorial",
-                to: "/docs/README",
+                to: "/docs/intro",
               },
             ],
           },
