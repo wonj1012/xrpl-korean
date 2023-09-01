@@ -19,9 +19,11 @@ jobs:
           cache: yarn
 
       - name: Install dependencies
-        run: cd site && yarn install --frozen-lockfile
+        run: yarn install --frozen-lockfile
+        working-directory: ./site
       - name: Build website
-        run: cd site && yarn build
+        run: yarn build
+        working-directory: ./site
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
