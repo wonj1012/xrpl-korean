@@ -1,8 +1,0 @@
-{
-  "label": "탈중앙화 거래소 (DEX)",
-  "position": 3,
-  "link": {
-    "type": "generated-index",
-    "description": "XRPL의 native한 탈중앙화 거래소 (DEX)에 대한 설명"
-  }
-}
